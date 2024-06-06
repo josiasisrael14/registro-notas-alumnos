@@ -7,6 +7,7 @@ import (
 	"notas/infraestructura/handler/student"
 	"notas/infraestructura/handler/stuff"
 	subjectTeacher "notas/infraestructura/handler/subjectTeacher"
+	"notas/infraestructura/handler/subjectstudent"
 	"notas/infraestructura/handler/teacher"
 	"notas/model"
 )
@@ -19,4 +20,5 @@ func InitRoutes(specification model.RouterSpecification) {
 	student.NewRouter(specification)
 	subjectTeacher.NewRouter(specification)
 	remissionguide.NewRouter(specification)
+	subjectstudent.NewRouter(specification)
 }
