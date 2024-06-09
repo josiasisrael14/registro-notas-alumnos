@@ -13,7 +13,8 @@ var (
 	_psqlGetAllWhere = ` SELECT 
                          ts.subjects_teacher_id, 
                          ts.comments, 
-                         t.name, 
+                         t.name,
+						 t.surnames, 
                          g.grade_name, 
                          s.secction, 
                          m.nombremateria
@@ -33,7 +34,8 @@ var (
 	_psqlGetWhere = ` SELECT 
                          ts.subjects_teacher_id, 
                          ts.comments, 
-                         t.name, 
+                         t.name,
+						 t.surnames, 
                          g.grade_name, 
                          s.secction, 
                          m.nombremateria
@@ -161,6 +163,7 @@ func (t SubjectTeacher) scanRow(p pgx.Row) (model.SubjectTeacher, error) {
 		&m.IdSubjectTeacher,
 		&m.Comments,
 		&m.NameTeacher,
+		&m.Surnames,
 		&m.Grade,
 		&m.Section,
 		&m.Subject,
