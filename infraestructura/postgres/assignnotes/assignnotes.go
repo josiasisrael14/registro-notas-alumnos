@@ -13,7 +13,9 @@ import (
 var (
 	_psqlGetAllWhere = ` select n.note_id, 
 	                            s.name,
+								s.surnames,
 								t.name,
+								t.surnames,
 								m.nombremateria,
 								g.grade_name,
 								g.specific_level,
@@ -75,7 +77,9 @@ func (t AssignNotes) scanRow(p pgx.Row) (model.AssignNote, error) {
 	err := p.Scan(
 		&m.Note_id,
 		&m.NameStudent,
+		&m.LastName,
 		&m.NameTeacher,
+		&m.LastNameTeacher,
 		&m.NameStuff,
 		&m.Grade,
 		&specificationLevelNull,
