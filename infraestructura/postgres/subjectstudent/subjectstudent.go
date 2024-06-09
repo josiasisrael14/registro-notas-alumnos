@@ -13,7 +13,8 @@ import (
 var (
 	_psqlGetAllWhere = ` SELECT 
                          ts.subject_student_id, 
-                         st.name, 
+                         st.name,
+						 st.surnames, 
                          g.grade_name, 
 						 g.specific_level,
                          s.secction 
@@ -74,6 +75,7 @@ func (t SubjectStudent) scanRow(p pgx.Row) (model.StudentSubject, error) {
 	err := p.Scan(
 		&m.IdSubjectStudent,
 		&m.NameStudent,
+		&m.LastName,
 		&m.Grade,
 		&specificationLevelNull,
 		&m.Section,
