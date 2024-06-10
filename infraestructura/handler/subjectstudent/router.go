@@ -26,5 +26,5 @@ func publicRoutes(api *gin.Engine, h handler, middlewares ...gin.HandlerFunc) {
 	routesSubjectStudent := api.Group("subjectStudent", middlewares...)
 
 	routesSubjectStudent.GET("", h.getWhereAll)
-
+	routesSubjectStudent.POST("", h.create)
 }

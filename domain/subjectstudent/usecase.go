@@ -29,3 +29,13 @@ func (s SubjectStudent) GetAllWhere(ctx context.Context, specification repositor
 
 	return ms, nil
 }
+
+func (s SubjectStudent) CreateSubjectStudent(ctx context.Context, request model.StudentSubject) (model.ResponseStatusSubjectStudent, error) {
+	rs, err := s.storage.CreateSubjectStudent(ctx, request)
+
+	if err != nil {
+		return model.ResponseStatusSubjectStudent{}, fmt.Errorf("subjectstudent.storage.CreateSubjectStudent(): %w", err)
+	}
+
+	return rs, nil
+}

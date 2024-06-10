@@ -1,11 +1,12 @@
 package model
 
 type StudentSubject struct {
-	IdSubjectStudent   string `json:"idSubjectStudent"`
-	NameStudent        string `json:"nameStudent"`
-	LastName           string `json:"lastName"`
+	IdSubjectStudent   string `json:"idSubjectStudent,omitempty"`
+	IdStudent          string `json:"idStudent,omitempty"`
+	NameStudent        string `json:"nameStudent,omitempty"`
+	LastName           string `json:"lastName,omitempty"`
 	Grade              string `json:"grade"`
-	SpecificationLevel string `json:"specificationLevel"`
+	SpecificationLevel string `json:"specificationLevel,omitempty"`
 	Section            string `json:"section"`
 }
 
