@@ -12,7 +12,8 @@ import (
 
 var (
 	_psqlGetAllWhere = ` SELECT 
-                         ts.subject_student_id, 
+                         ts.student_subject_id,
+						 ts.student_id, 
                          st.name,
 						 st.surnames, 
                          g.grade_name, 
@@ -27,6 +28,10 @@ var (
                          INNER JOIN 
                          section s ON ts.section_id = s.section_id
                          `
+)
+
+var (
+	_psqlCreateSubjectStudent = `insert into students_subjects (student_id,grades_id,section_id)values($1,$2,$3)`
 )
 
 type SubjectStudent struct {
@@ -67,6 +72,25 @@ func (s SubjectStudent) GetAllWhere(ctx context.Context, specification repositor
 	return ms, nil
 }
 
+func (s SubjectStudent) CreateSubjectStudent(ctx context.Context, request model.StudentSubject) (model.ResponseStatusSubjectStudent, error) {
+	logTracer := register.NewPostgres(ctx, "postgres.subjectstudent.CreateSubjectStudent")
+
+	logTracer.RegisterRequest(_psqlCreateSubjectStudent, []any{request})
+
+	_, err := s.db.Exec(ctx, _psqlCreateSubjectStudent, request.NameStudent, request.Grade, request.Section)
+	if err != nil {
+		logTracer.RegisterFailed(err)
+		return model.ResponseStatusSubjectStudent{}, err
+	}
+	response := model.ResponseStatusSubjectStudent{
+		Response: "SubjectStudent create",
+	}
+
+	logTracer.RegisterResponse(response)
+
+	return response, nil
+}
+
 func (t SubjectStudent) scanRow(p pgx.Row) (model.StudentSubject, error) {
 	m := model.StudentSubject{}
 
@@ -74,6 +98,7 @@ func (t SubjectStudent) scanRow(p pgx.Row) (model.StudentSubject, error) {
 
 	err := p.Scan(
 		&m.IdSubjectStudent,
+		&m.IdStudent,
 		&m.NameStudent,
 		&m.LastName,
 		&m.Grade,
