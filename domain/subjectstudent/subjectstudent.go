@@ -9,14 +9,14 @@ import (
 
 type UseCase interface {
 	CreateSubjectStudent(ctx context.Context, request model.StudentSubject) (model.ResponseStatusSubjectStudent, error)
-	//GetWhere(ctx context.Context, id string) (model.SubjectTeacher, error)
+	GetWhere(ctx context.Context, id string) (model.StudentSubject, error)
 	GetAllWhere(ctx context.Context, specification repository.FieldsSpecification) (model.StudentSubjects, error)
 	//Update(ctx context.Context, request model.SubjectTeacher) (model.ResponseStatusSubjectTeacher, error)
 	//Delete(ctx context.Context, id string) (model.ResponseStatusDegree, error)
 }
 
 type StorageSubjectStudent interface {
-	//GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.SubjectTeacher, error)
+	GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.StudentSubject, error)
 	CreateSubjectStudent(ctx context.Context, request model.StudentSubject) (model.ResponseStatusSubjectStudent, error)
 	GetAllWhere(ctx context.Context, specification repository.FieldsSpecification) (model.StudentSubjects, error)
 	//UpdateSubjectTeacher(ctx context.Context, request model.SubjectTeacher) (model.ResponseStatusSubjectTeacher, error)

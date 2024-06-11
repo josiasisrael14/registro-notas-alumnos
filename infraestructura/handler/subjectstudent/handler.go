@@ -69,3 +69,18 @@ func (h handler) create(c *gin.Context) {
 	c.JSON(h.response.Created(c, rs))
 
 }
+
+func (h handler) getWhere(c *gin.Context) {
+	c.Header("Content-Type", "application/json; charset=utf-8")
+
+	idSubjectStudent := c.Query("idSubjectStudent")
+
+	m, err := h.useCase.GetWhere(c.Request.Context(), idSubjectStudent)
+
+	if err != nil {
+		c.JSON(h.response.Error(c, "h.useCase.GetWhere()", err))
+		return
+	}
+
+	c.JSON(h.response.OK(c, m))
+}

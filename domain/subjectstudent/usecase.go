@@ -39,3 +39,14 @@ func (s SubjectStudent) CreateSubjectStudent(ctx context.Context, request model.
 
 	return rs, nil
 }
+
+func (s SubjectStudent) GetWhere(ctx context.Context, id string) (model.StudentSubject, error) {
+	m, err := s.storage.GetWhere(ctx, repository.FieldsSpecification{Filters: repository.Fields{
+		{Name: "student_subject_id", Value: id},
+	}})
+	if err != nil {
+		return model.StudentSubject{}, fmt.Errorf("subjectstudent.storage.GetWhere(): %w", err)
+	}
+
+	return m, nil
+}
