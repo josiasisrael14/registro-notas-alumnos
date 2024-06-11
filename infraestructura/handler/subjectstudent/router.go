@@ -27,4 +27,5 @@ func publicRoutes(api *gin.Engine, h handler, middlewares ...gin.HandlerFunc) {
 
 	routesSubjectStudent.GET("", h.getWhereAll)
 	routesSubjectStudent.POST("", h.create)
+	routesSubjectStudent.GET("/id", h.getWhere)
 }

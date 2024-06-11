@@ -31,6 +31,26 @@ var (
 )
 
 var (
+	_psqlGetWhere = ` SELECT 
+                         ts.student_subject_id,
+						 s.student_id, 
+                         s.name,
+						 s.surnames, 
+                         g.grade_name,
+						 g.specific_level, 
+                         se.secction 
+                         FROM 
+                         students_subjects ts
+                         INNER JOIN 
+                         students s ON ts.student_id = s.student_id
+                         INNER JOIN 
+                         grades g ON ts.grades_id = g.grades_id
+                         INNER JOIN 
+                         section se ON ts.section_id = se.section_id
+                         `
+)
+
+var (
 	_psqlCreateSubjectStudent = `insert into students_subjects (student_id,grades_id,section_id)values($1,$2,$3)`
 )
 
@@ -89,6 +109,23 @@ func (s SubjectStudent) CreateSubjectStudent(ctx context.Context, request model.
 	logTracer.RegisterResponse(response)
 
 	return response, nil
+}
+
+func (s SubjectStudent) GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.StudentSubject, error) {
+	query, args := repository.BuildQueryAndArgs(_psqlGetWhere, specification)
+
+	logTracer := register.NewPostgres(ctx, "postgres.subjectstudent.GetWhere")
+	logTracer.RegisterRequest(query, args)
+
+	m, err := s.scanRow(s.db.QueryRow(ctx, query, args...))
+	if err != nil {
+		logTracer.RegisterFailed(err)
+
+		return model.StudentSubject{}, err
+	}
+	logTracer.RegisterResponse(m)
+
+	return m, nil
 }
 
 func (t SubjectStudent) scanRow(p pgx.Row) (model.StudentSubject, error) {
