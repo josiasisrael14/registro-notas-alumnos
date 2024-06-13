@@ -3,7 +3,8 @@ package student
 import (
 	"notas/domain/student"
 	"notas/model"
-	"time"
+
+	"github.com/josiasisrael14/libreriaFecha/dateparser"
 
 	"dev.azure.com/ciaalicorp/CIA-Funciones/cia-library-extension-rkgin-common.git/v2/apiutils/response"
 	"dev.azure.com/ciaalicorp/CIA-Funciones/cia-library-repository-odl.git/repository"
@@ -35,8 +36,8 @@ func (h handler) create(c *gin.Context) {
 		return
 	}
 
-	birthDate, err := time.Parse(model.DateFormat, student.BirthDate)
-	//birthDate, err := dateparser.ParseDate(student.BirthDate)
+	//birthDate, err := time.Parse(model.DateFormat, student.BirthDate)
+	birthDate, err := dateparser.ParserData(student.BirthDate)
 
 	if err != nil {
 		c.JSON(h.response.Error(c, "Invalid date format", err))
