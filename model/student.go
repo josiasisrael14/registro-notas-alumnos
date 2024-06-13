@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Student struct {
 	StudentId   string    `json:"studentId"`
