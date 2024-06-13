@@ -12,6 +12,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.4.3
 	github.com/joho/godotenv v1.5.1
+	github.com/josiasisrael14/libreriaFecha v0.0.0-20240613201848-15142992ba95
 	github.com/rookie-ninja/rk-entry/v2 v2.2.18
 	github.com/rookie-ninja/rk-gin/v2 v2.2.20
 	go.opentelemetry.io/otel v1.19.0-rc.1
