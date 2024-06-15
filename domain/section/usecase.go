@@ -39,3 +39,15 @@ func (s Section) GetAllWhere(ctx context.Context, specification repository.Field
 
 	return ms, nil
 }
+
+func (s Section) GetWhere(ctx context.Context, id string) (model.Section, error) {
+	m, err := s.storage.GetWhere(ctx, repository.FieldsSpecification{Filters: repository.Fields{
+		{Name: "section_id", Value: id},
+	}})
+
+	if err != nil {
+		return model.Section{}, fmt.Errorf("section.storage.GetWhere(): %w", err)
+	}
+
+	return m, nil
+}

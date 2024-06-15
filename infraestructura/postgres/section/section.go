@@ -17,7 +17,7 @@ var _fieldWhere = []string{
 const _table = "section"
 
 var (
-	//_psqlGetWhere    = repository.BuildSQLSelectFields(_table, _fieldWhere)
+	_psqlGetWhere    = repository.BuildSQLSelectFields(_table, _fieldWhere)
 	_psqlGetAllWhere = repository.BuildSQLSelectFields(_table, _fieldWhere)
 )
 
@@ -80,6 +80,23 @@ func (s Section) GetAllWhere(ctx context.Context, specification repository.Field
 	logTrace.RegisterResponse(ms)
 
 	return ms, nil
+}
+
+func (s Section) GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Section, error) {
+	query, args := repository.BuildQueryAndArgs(_psqlGetWhere, specification)
+
+	logTracer := register.NewPostgres(ctx, "postgres.section.GetWhere")
+	logTracer.RegisterRequest(query, args)
+
+	m, err := s.scanRow(s.db.QueryRow(ctx, query, args...))
+	if err != nil {
+		logTracer.RegisterFailed(err)
+		return model.Section{}, err
+	}
+
+	logTracer.RegisterResponse(m)
+
+	return m, nil
 }
 
 func (s Section) scanRow(p pgx.Row) (model.Section, error) {

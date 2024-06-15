@@ -85,6 +85,23 @@ func (d Degree) GetAllWhere(ctx context.Context, specification repository.Fields
 	return ms, nil
 }
 
+func (d Degree) GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Degree, error) {
+	query, args := repository.BuildQueryAndArgs(_psqlGetWhere, specification)
+
+	logTracer := register.NewPostgres(ctx, "postgres.degree.GetWhere")
+	logTracer.RegisterRequest(query, args)
+
+	m, err := d.scanRow(d.db.QueryRow(ctx, query, args...))
+	if err != nil {
+		logTracer.RegisterFailed(err)
+		return model.Degree{}, err
+	}
+
+	logTracer.RegisterResponse(m)
+
+	return m, nil
+}
+
 func (s Degree) scanRow(p pgx.Row) (model.Degree, error) {
 	m := model.Degree{}
 
@@ -103,21 +120,4 @@ func (s Degree) scanRow(p pgx.Row) (model.Degree, error) {
 
 	return m, nil
 
-}
-
-func (d Degree) GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Degree, error) {
-	query, args := repository.BuildQueryAndArgs(_psqlGetWhere, specification)
-
-	logTracer := register.NewPostgres(ctx, "postgres.degree.GetWhere")
-	logTracer.RegisterRequest(query, args)
-
-	m, err := d.scanRow(d.db.QueryRow(ctx, query, args...))
-	if err != nil {
-		logTracer.RegisterFailed(err)
-
-		return model.Degree{}, err
-	}
-	logTracer.RegisterResponse(m)
-
-	return m, nil
 }
