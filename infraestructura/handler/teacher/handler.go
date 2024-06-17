@@ -50,3 +50,18 @@ func (h handler) getWhereAll(c *gin.Context) {
 
 	c.JSON(h.response.OK(c, m))
 }
+
+func (h handler) getWhere(c *gin.Context) {
+	c.Header("Content-Type", "application/json; charset=utf-8")
+
+	idTeacher := c.Query("idTeacher")
+
+	m, err := h.useCase.GetWhere(c.Request.Context(), idTeacher)
+
+	if err != nil {
+		c.JSON(h.response.Error(c, "h.useCase.GetWhere()", err))
+		return
+	}
+
+	c.JSON(h.response.OK(c, m))
+}
