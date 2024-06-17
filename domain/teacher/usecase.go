@@ -39,3 +39,14 @@ func (t Teacher) GetAllWhere(ctx context.Context, specification repository.Field
 
 	return ms, nil
 }
+
+func (t Teacher) GetWhere(ctx context.Context, id string) (model.Teacher, error) {
+	m, err := t.storage.GetWhere(ctx, repository.FieldsSpecification{Filters: repository.Fields{
+		{Name: "id_teacher", Value: id},
+	}})
+	if err != nil {
+		return model.Teacher{}, fmt.Errorf("teacher.storage.GetWhere(): %w", err)
+	}
+
+	return m, nil
+}

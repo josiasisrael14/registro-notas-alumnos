@@ -22,9 +22,10 @@ func buildHandler(specification model.RouterSpecification) handler {
 }
 
 func publicRoutes(api *gin.Engine, h handler, middlewares ...gin.HandlerFunc) {
-	routesDegree := api.Group("teacher", middlewares...)
+	routesTeacher := api.Group("teacher", middlewares...)
 
-	routesDegree.POST("", h.create)
-	routesDegree.GET("", h.getWhereAll)
+	routesTeacher.POST("", h.create)
+	routesTeacher.GET("", h.getWhereAll)
+	routesTeacher.GET("/getWhere", h.getWhere)
 
 }
