@@ -50,3 +50,12 @@ func (d Degree) GetWhere(ctx context.Context, id string) (model.Degree, error) {
 
 	return m, nil
 }
+
+func (d Degree) Update(ctx context.Context, request model.Degree) (model.ResponseStatusDegree, error) {
+	m, err := d.storage.UpdateDegree(ctx, request)
+	if err != nil {
+		return model.ResponseStatusDegree{}, err
+	}
+
+	return m, nil
+}
