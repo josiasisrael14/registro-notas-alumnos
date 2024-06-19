@@ -28,6 +28,10 @@ var (
 	_psqlInsertDegree = `INSERT INTO grades( grade_name,specific_level )VALUES($1,$2)`
 )
 
+var (
+	_psqlUpdateDegree = `update grades set grade_name=$1,specific_level=$2 where grades_id=$3`
+)
+
 type Degree struct {
 	db model.PgxPool
 }
@@ -100,6 +104,28 @@ func (d Degree) GetWhere(ctx context.Context, specification repository.FieldsSpe
 	logTracer.RegisterResponse(m)
 
 	return m, nil
+}
+
+func (d Degree) UpdateDegree(ctx context.Context, request model.Degree) (model.ResponseStatusDegree, error) {
+	logTrace := register.NewPostgres(ctx, "postgres.degree.UpdateStuff")
+
+	logTrace.RegisterRequest(_psqlUpdateDegree, []any{request})
+
+	_, err := d.db.Exec(ctx, _psqlUpdateDegree, request.NameDegree, request.SpecificLevel, request.IdDegree)
+
+	if err != nil {
+		logTrace.RegisterFailed(err)
+		return model.ResponseStatusDegree{}, err
+	}
+
+	response := model.ResponseStatusDegree{
+
+		Response: "degree success",
+	}
+
+	logTrace.RegisterResponse(response)
+
+	return response, nil
 }
 
 func (s Degree) scanRow(p pgx.Row) (model.Degree, error) {
