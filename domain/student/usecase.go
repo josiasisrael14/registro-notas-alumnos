@@ -66,5 +66,17 @@ func (s Student) GetAllWhere(ctx context.Context, specification repository.Field
 		return nil, fmt.Errorf("student.storage.GetAllWhere(): %w", err)
 	}
 
+	/*for i := range ms {
+		year, month, day := ms[i].BirthDate.Date()                          // Extraer año, mes y día
+		ms[i].BirthDate = time.Date(year, month, day, 0, 0, 0, 0, time.UTC) // Establecer hora a cero
+
+		// Formatear la fecha sin ceros iniciales
+		ms[i].BirthDate.Format("2006-01-02")                                           // Formatear a YYYY-MM-DD
+		strings.Trim(strings.TrimLeft(ms[i].BirthDate.Format("2006-01-02"), "0"), "-") // Eliminar ceros iniciales y guiones
+
+	}*/
+
+	// Convertir las fechas a Date
+
 	return ms, nil
 }

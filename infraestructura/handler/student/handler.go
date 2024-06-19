@@ -4,11 +4,10 @@ import (
 	"notas/domain/student"
 	"notas/model"
 
-	"github.com/josiasisrael14/libreriaFecha/dateparser"
-
 	"dev.azure.com/ciaalicorp/CIA-Funciones/cia-library-extension-rkgin-common.git/v2/apiutils/response"
 	"dev.azure.com/ciaalicorp/CIA-Funciones/cia-library-repository-odl.git/repository"
 	"github.com/gin-gonic/gin"
+	"github.com/josiasisrael14/libreriaFecha/dateparser"
 )
 
 type StudentTemp struct {
@@ -36,7 +35,6 @@ func (h handler) create(c *gin.Context) {
 		return
 	}
 
-	//birthDate, err := time.Parse(model.DateFormat, student.BirthDate)
 	birthDate, err := dateparser.ParserData(student.BirthDate)
 
 	if err != nil {
