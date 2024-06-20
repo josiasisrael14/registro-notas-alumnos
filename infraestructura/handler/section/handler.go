@@ -65,3 +65,21 @@ func (h handler) getWhere(c *gin.Context) {
 
 	c.JSON(h.response.OK(c, m))
 }
+
+func (h handler) update(c *gin.Context) {
+	c.Header("Content-Type", "application/json; charset=utf-8")
+
+	var section model.Section
+
+	if err := c.BindJSON(&section); err != nil {
+		c.JSON(h.response.BindFailed(c, err))
+		return
+	}
+
+	m, err := h.useCase.Update(c.Request.Context(), section)
+	if err != nil {
+		c.JSON(h.response.Error(c, "h.useCase.Update()", err))
+		return
+	}
+	c.JSON(h.response.Created(c, m))
+}

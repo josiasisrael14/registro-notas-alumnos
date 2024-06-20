@@ -25,6 +25,10 @@ var (
 	_psqlInsertSection = `INSERT INTO section(secction)VALUES($1)`
 )
 
+var (
+	_psqlUpdateSection = `update section set secction=$1 where section_id=$2`
+)
+
 type Section struct {
 	db model.PgxPool
 }
@@ -97,6 +101,28 @@ func (s Section) GetWhere(ctx context.Context, specification repository.FieldsSp
 	logTracer.RegisterResponse(m)
 
 	return m, nil
+}
+
+func (s Section) UpdateSection(ctx context.Context, request model.Section) (model.ResponseStatusSection, error) {
+	logTrace := register.NewPostgres(ctx, "postgres.section.UpdateSection")
+
+	logTrace.RegisterRequest(_psqlUpdateSection, []any{request})
+
+	_, err := s.db.Exec(ctx, _psqlUpdateSection, request.NameSection, request.IdSection)
+
+	if err != nil {
+		logTrace.RegisterFailed(err)
+		return model.ResponseStatusSection{}, err
+	}
+
+	response := model.ResponseStatusSection{
+
+		Response: "Section success",
+	}
+
+	logTrace.RegisterResponse(response)
+
+	return response, nil
 }
 
 func (s Section) scanRow(p pgx.Row) (model.Section, error) {

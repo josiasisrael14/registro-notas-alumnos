@@ -51,3 +51,11 @@ func (s Section) GetWhere(ctx context.Context, id string) (model.Section, error)
 
 	return m, nil
 }
+func (s Section) Update(ctx context.Context, request model.Section) (model.ResponseStatusSection, error) {
+	m, err := s.storage.UpdateSection(ctx, request)
+	if err != nil {
+		return model.ResponseStatusSection{}, fmt.Errorf("section.storage.UpdateSection():%w", err)
+	}
+
+	return m, nil
+}
