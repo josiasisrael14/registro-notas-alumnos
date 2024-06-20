@@ -50,3 +50,12 @@ func (t Teacher) GetWhere(ctx context.Context, id string) (model.Teacher, error)
 
 	return m, nil
 }
+
+func (t Teacher) Update(ctx context.Context, request model.Teacher) (model.ResponseStatusTeacher, error) {
+	m, err := t.storage.UpdateTeacher(ctx, request)
+	if err != nil {
+		return model.ResponseStatusTeacher{}, err
+	}
+
+	return m, nil
+}

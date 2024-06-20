@@ -27,5 +27,6 @@ func publicRoutes(api *gin.Engine, h handler, middlewares ...gin.HandlerFunc) {
 	routesTeacher.POST("", h.create)
 	routesTeacher.GET("", h.getWhereAll)
 	routesTeacher.GET("/getWhere", h.getWhere)
+	routesTeacher.PATCH("/update", h.update)
 
 }

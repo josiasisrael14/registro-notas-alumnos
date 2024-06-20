@@ -27,6 +27,10 @@ var (
 	_psqlInsertTeacher = `INSERT INTO teachers(name,surnames,cellpone)VALUES($1,$2,$3)`
 )
 
+var (
+	_psqlUpdateTeacher = `update teachers set name=$1,surnames=$2,cellpone=$3 where id_teacher=$4`
+)
+
 type Teacher struct {
 	db model.PgxPool
 }
@@ -99,6 +103,28 @@ func (t Teacher) GetWhere(ctx context.Context, specification repository.FieldsSp
 	logTracer.RegisterResponse(m)
 
 	return m, nil
+}
+
+func (t Teacher) UpdateTeacher(ctx context.Context, request model.Teacher) (model.ResponseStatusTeacher, error) {
+	logTrace := register.NewPostgres(ctx, "postgres.teacher.UpdateTeacher")
+
+	logTrace.RegisterRequest(_psqlUpdateTeacher, []any{request})
+
+	_, err := t.db.Exec(ctx, _psqlUpdateTeacher, request.Name, request.Surnames, request.CellPone, request.IdTeacher)
+
+	if err != nil {
+		logTrace.RegisterFailed(err)
+		return model.ResponseStatusTeacher{}, err
+	}
+
+	response := model.ResponseStatusTeacher{
+
+		Response: "Teacher success",
+	}
+
+	logTrace.RegisterResponse(response)
+
+	return response, nil
 }
 
 func (t Teacher) scanRow(p pgx.Row) (model.Teacher, error) {
