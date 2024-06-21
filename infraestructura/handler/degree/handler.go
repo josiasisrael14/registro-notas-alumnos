@@ -83,3 +83,17 @@ func (h handler) update(c *gin.Context) {
 	}
 	c.JSON(h.response.Created(c, m))
 }
+
+func (h handler) delete(c *gin.Context) {
+	c.Header("Content-Type", "application/json; charset=utf-8")
+
+	idDegree := c.Query("idDegree")
+
+	_, err := h.useCase.Delete(c.Request.Context(), idDegree)
+	if err != nil {
+		c.JSON(h.response.Error(c, "h.useCase.Delete()", err))
+		return
+	}
+
+	c.JSON(h.response.Deleted(c))
+}

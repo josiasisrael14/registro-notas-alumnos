@@ -12,7 +12,7 @@ type UseCase interface {
 	GetWhere(ctx context.Context, id string) (model.Degree, error)
 	GetAllWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Degrees, error)
 	Update(ctx context.Context, request model.Degree) (model.ResponseStatusDegree, error)
-	//Delete(ctx context.Context, id string) (model.ResponseStatusDegree, error)
+	Delete(ctx context.Context, id string) (model.ResponseStatusDegree, error)
 }
 
 type StorageDegree interface {
@@ -20,5 +20,5 @@ type StorageDegree interface {
 	GetWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Degree, error)
 	GetAllWhere(ctx context.Context, specification repository.FieldsSpecification) (model.Degrees, error)
 	UpdateDegree(ctx context.Context, request model.Degree) (model.ResponseStatusDegree, error)
-	//DeleteDegree(ctx context.Context, id string) (model.ResponseStatusDegree, error)
+	DeleteDegree(ctx context.Context, id string) (model.ResponseStatusDegree, error)
 }

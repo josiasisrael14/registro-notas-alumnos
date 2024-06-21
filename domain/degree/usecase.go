@@ -59,3 +59,12 @@ func (d Degree) Update(ctx context.Context, request model.Degree) (model.Respons
 
 	return m, nil
 }
+
+func (d Degree) Delete(ctx context.Context, id string) (model.ResponseStatusDegree, error) {
+	m, err := d.storage.DeleteDegree(ctx, id)
+	if err != nil {
+		return model.ResponseStatusDegree{}, err
+	}
+
+	return m, nil
+}

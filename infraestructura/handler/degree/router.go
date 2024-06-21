@@ -29,5 +29,5 @@ func publicRoutes(api *gin.Engine, h handler, middlewares ...gin.HandlerFunc) {
 	routesDegree.GET("", h.getWhereAll)
 	routesDegree.GET("/getWhere", h.getWhere)
 	routesDegree.PATCH("/update", h.update)
-
+	routesDegree.DELETE("", h.delete)
 }
