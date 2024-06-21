@@ -89,14 +89,28 @@ func (h handler) getWhereAll(c *gin.Context) {
 func (h handler) update(c *gin.Context) {
 	c.Header("Content-Type", "application/json; charset=utf-8")
 
-	var student model.Student
+	var student StudentTemp
 
 	if err := c.BindJSON(&student); err != nil {
 		c.JSON(h.response.BindFailed(c, err))
 		return
 	}
 
-	m, err := h.useCase.Update(c.Request.Context(), student)
+	birthDate, err := dateparser.ParserData(student.BirthDate)
+
+	if err != nil {
+		c.JSON(h.response.Error(c, "Invalid date format", err))
+		return
+	}
+
+	studentRequest := model.Student{
+		StudentId:   student.StudentId,
+		NameStudent: student.NameStudent,
+		LastName:    student.LastName,
+		BirthDate:   birthDate,
+	}
+
+	m, err := h.useCase.Update(c.Request.Context(), studentRequest)
 	if err != nil {
 		c.JSON(h.response.Error(c, "h.useCase.Update()", err))
 		return
