@@ -32,6 +32,10 @@ var (
 	_psqlUpdateDegree = `update grades set grade_name=$1,specific_level=$2 where grades_id=$3`
 )
 
+var (
+	_psqlDeleteStuff = `delete from grades where grades_id=$1`
+)
+
 type Degree struct {
 	db model.PgxPool
 }
@@ -121,6 +125,28 @@ func (d Degree) UpdateDegree(ctx context.Context, request model.Degree) (model.R
 	response := model.ResponseStatusDegree{
 
 		Response: "degree success",
+	}
+
+	logTrace.RegisterResponse(response)
+
+	return response, nil
+}
+
+func (d Degree) DeleteDegree(ctx context.Context, id string) (model.ResponseStatusDegree, error) {
+	logTrace := register.NewPostgres(ctx, "postgres.degree.DeleteDegree")
+
+	logTrace.RegisterRequest(_psqlDeleteStuff, []any{id})
+
+	_, err := d.db.Exec(ctx, _psqlDeleteStuff, id)
+
+	if err != nil {
+		logTrace.RegisterFailed(err)
+		return model.ResponseStatusDegree{}, err
+	}
+
+	response := model.ResponseStatusDegree{
+
+		Response: "delete success",
 	}
 
 	logTrace.RegisterResponse(response)
