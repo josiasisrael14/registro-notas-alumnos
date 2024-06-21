@@ -51,7 +51,7 @@ func (s Student) CreateStudent(ctx context.Context, request model.Student) (mode
 
 	logTracer.RegisterRequest(_psqlInsertStudent, []any{request})
 
-	_, err := s.db.Exec(ctx, _psqlInsertStudent, request.NameStudent, request.LastName, request.BirthDate) //Format(model.DateFormat))
+	_, err := s.db.Exec(ctx, _psqlInsertStudent, request.NameStudent, request.LastName, request.BirthDate.Format(model.DateFormat)) //Format(model.DateFormat))
 	if err != nil {
 		logTracer.RegisterFailed(err)
 		return model.ResponseStatusStudent{}, err
@@ -88,7 +88,7 @@ func (s Student) UpdateStudent(ctx context.Context, request model.Student) (mode
 
 	logTrace.RegisterRequest(_psqlUpdateStudent, []any{request})
 
-	_, err := s.db.Exec(ctx, _psqlUpdateStudent, request.NameStudent, request.LastName, request.BirthDate)
+	_, err := s.db.Exec(ctx, _psqlUpdateStudent, request.NameStudent, request.LastName, request.BirthDate.Format(model.DateFormat), request.StudentId)
 
 	if err != nil {
 		logTrace.RegisterFailed(err)
