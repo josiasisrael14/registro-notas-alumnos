@@ -10,6 +10,7 @@ require (
 	github.com/exaring/otelpgx v0.5.3
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.9.1
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jackc/pgx/v5 v5.4.3
 	github.com/joho/godotenv v1.5.1
 	github.com/josiasisrael14/libreriaFecha v0.0.0-20240613201848-15142992ba95

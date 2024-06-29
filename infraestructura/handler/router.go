@@ -3,6 +3,7 @@ package handler
 import (
 	"notas/infraestructura/handler/assignnotes"
 	"notas/infraestructura/handler/degree"
+	"notas/infraestructura/handler/login"
 	"notas/infraestructura/handler/remissionguide"
 	"notas/infraestructura/handler/section"
 	"notas/infraestructura/handler/student"
@@ -23,4 +24,5 @@ func InitRoutes(specification model.RouterSpecification) {
 	remissionguide.NewRouter(specification)
 	subjectstudent.NewRouter(specification)
 	assignnotes.NewRouter(specification)
+	login.NewRouter(specification)
 }
