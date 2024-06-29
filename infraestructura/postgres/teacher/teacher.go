@@ -24,7 +24,7 @@ var (
 )
 
 var (
-	_psqlInsertTeacher = `INSERT INTO teachers(name,surnames,cellpone)VALUES($1,$2,$3)`
+	_psqlInsertTeacher = `INSERT INTO teachers(name,surnames,cellpone,roles_id,password,login)VALUES($1,$2,$3,$4,$5,$6)`
 )
 
 var (
@@ -46,7 +46,7 @@ func (t Teacher) CreateTeacher(ctx context.Context, request model.Teacher) (mode
 
 	logTracer.RegisterRequest(_psqlInsertTeacher, []any{request})
 
-	_, err := t.db.Exec(ctx, _psqlInsertTeacher, request.Name, request.Surnames, request.CellPone)
+	_, err := t.db.Exec(ctx, _psqlInsertTeacher, request.Name, request.Surnames, request.CellPone, request.RolId, request.Password, request.UserTeacher)
 	if err != nil {
 		logTracer.RegisterFailed(err)
 		return model.ResponseStatusTeacher{}, err
